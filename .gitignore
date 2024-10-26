@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+*.venv
+*venv
+*./venv
+*/venv
+venv/
+/venv/
+*.venv/
+schoolmanager/venv
+=======
+.venv
+>>>>>>> 60e98359149ab120318e7fd4b05bb06d4502b5cb
