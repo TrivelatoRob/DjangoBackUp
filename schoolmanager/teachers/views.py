@@ -49,6 +49,8 @@ class TeacherCreateView(View):
             hiring_date=data['hiring_date'],
             salary=data['salary'],
         )
+        if 'courses' in data:
+            teacher.courses.set(data['courses'])
 
         return JsonResponse({'id': teacher.id}, status=201)
 
