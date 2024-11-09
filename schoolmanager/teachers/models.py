@@ -4,7 +4,7 @@ from courses.models import Courses
 class Teacher(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    courses = models.ForeignKey(Courses, related_name='teachers')
+    courses = models.ForeignKey(Courses, on_delete=models.DO_NOTHING, related_name='teachers')
     email = models.EmailField(unique=True)
     active = models.BooleanField(default=True)
     birth_date = models.DateField()
