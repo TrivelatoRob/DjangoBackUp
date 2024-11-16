@@ -5,6 +5,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
+from courses.models import Courses
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -36,9 +37,16 @@ class TeacherCreateView(View):
             errors['hiring_date'] = "Este campo é obrigatório."
         if 'salary' not in data or not data['salary']:
             errors['salary'] = "Este campo é obrigatório."
+        if 'courses' not in data or not data['courses']:
+            errors['courses'] = "Este campo é obrigatório."
 
         if errors:
             return JsonResponse(errors, status=400)
+
+        try:
+            course = Courses.objects.get(id=data['courses'])
+        except Courses.DoesNotExist:
+            return JsonResponse({'courses': "Curso não encontrado."}, status=400)
 
         # Criar o professor
         teacher = Teacher.objects.create(
@@ -48,9 +56,9 @@ class TeacherCreateView(View):
             birth_date=data['birth_date'],
             hiring_date=data['hiring_date'],
             salary=data['salary'],
+            courses=course,
         )
-        if 'courses' in data:
-            teacher.courses.set(data['courses'])
+        
 
         return JsonResponse({'id': teacher.id}, status=201)
 
